@@ -4,27 +4,39 @@ const SECURITY_CODE='paradigma';
 
 const UseState = ({name}) => {
 
-  const[error,setError]=React.useState(false)
-  const [loading, setLoading] = React.useState(false)
-  const[value ,setValue]=React.useState('')
-
+  const [state,setState]=React.useState({
+    error:false,
+    loading:false,
+    value:''
+  })
+ 
+  
   
 
   React.useEffect(() => {
-      if(loading){
+      if(state.loading){
          setTimeout(()=>{
-          if(value===SECURITY_CODE){
-            setLoading(false)
-            setValue('')
+          if(state.value===SECURITY_CODE){
+            //tenemos que copiar el estado original del state y ahora sí modificar el objeto que queremos modificar para evitar un error
+            setState({
+              ...state,
+              loading:false,
+              value:""
+            })
+            
           }else{
-            setError(true)
-            setLoading(false)
-            setValue('')
+            setState({
+              ...state,
+              error:true,
+              loading:false,
+              value:""
+            })
+            
           }
           },3000)
       }
      
-  }, [loading])
+  }, [state.loading])
   
 
   return (
@@ -38,23 +50,24 @@ const UseState = ({name}) => {
 
         <input type={'text'}
         placeholder={'Código de seguridad'}
-        className={`border-solid border-2 bg-gray-300 px-1 py-2 mx-5 text-center rounded-xl focus:border-4 focus:border-blue-500 ${error?"border-red-700":""}`}
-        value={value}
+        className={`border-solid border-2 bg-gray-300 px-1 py-2 mx-5 text-center rounded-xl focus:border-4 focus:border-blue-500 ${state.error?"border-red-700":""}`}
+        value={state.value}
         onChange={(event)=>{
           const inputValue=event.target.value
-          setValue(inputValue)
+          setState({...state,value:inputValue})
+          
         }}
-        onFocus={()=>setError(false)}
+        onFocus={()=> setState({...state,error:false,value:""})}
         />
 
 
-        {loading&&<p>Cargando...</p>}
-        {error&&<p>Error, el código es incorrecto!!</p>}
+        {state.loading&&<p>Cargando...</p>}
+        {state.error&&<p>Error, el código es incorrecto!!</p>}
 
         <button
          type='button'
          className='w-[150px] h-auto border-solid border-2 bg-blue-400  my-4 p-2 rounded-lg hover:bg-blue-700 hover:text-white'
-         onClick={()=>setLoading(true)}
+         onClick={()=> setState({...state,loading:true})}
          >Comprobar</button>
     </div>
        
