@@ -1,4 +1,4 @@
-import { ClassState } from "./UseState/ClassState"
+import { UseReducer } from "./Usereducer/UseReducer"
 import { UseState } from "./UseState/UseState"
 
 function App() {
@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App w-screen h-screen">
       <UseState  name={'UseState'}/>
-      <ClassState  name={'ClassState'}/>
+      <UseReducer name={'UseReducer'}/>
     </div>
   )
 }
