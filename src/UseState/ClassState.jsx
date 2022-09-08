@@ -1,13 +1,21 @@
 import React from 'react'
+import { Loading } from './Loading';
 
 class ClassState extends React.Component {
 
       constructor(props){
         super(props);
         this.state={
-          error:false
+          error:false,
+          loading:false
         }
       }
+     //esto era como el useEffect
+    componentDidUpdate(){
+      if(this.state.loading){
+        setTimeout(()=>{this.setState({loading:false})},3000)
+     }
+    }
 
       render(){
         return (
@@ -21,11 +29,14 @@ class ClassState extends React.Component {
         />
 
          {this.state.error&&<p>Error, el código es incorrecto!!</p>}
+         {this.state.loading&&<Loading/>}
 
         <button
          type='button'
          className='w-[150px] h-auto border-solid border-2 bg-blue-400  my-4 p-2 rounded-lg hover:bg-blue-700 hover:text-white'
-         onClick={()=>this.setState({error:(!this.state.error)})}
+         onClick={()=>this.setState({loading:true})}
+        //efecto toggle
+        //  this.setState({loading:(!this.state.error)})
          >Comprobar</button>
     </div>
        
