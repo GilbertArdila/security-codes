@@ -12,29 +12,42 @@ const UseState = ({name}) => {
     confirm:false
   })
  
-  
-  
+  const onConfirm=()=>{
+    //tenemos que copiar el estado original del state y ahora sí modificar el objeto que queremos modificar para evitar un error
+    setState({
+      ...state,
+      loading:false,
+      value:"",
+      confirm:true
+    })
+  }
+   const onError=()=>{
+    setState({
+      ...state,
+      error:true,
+      loading:false,
+      value:""
+    })
+   }
+  const onWrite=(event)=>{
+    const inputValue=event.target.value
+    setState({...state,value:inputValue})
+  }
+   
+  const onInputFocus=()=>{
+    setState({...state,error:false,value:""})
+  }
 
+  const onCheck=()=>{
+    setState({...state,loading:true})
+  }
   React.useEffect(() => {
       if(state.loading){
          setTimeout(()=>{
           if(state.value===SECURITY_CODE){
-            //tenemos que copiar el estado original del state y ahora sí modificar el objeto que queremos modificar para evitar un error
-            setState({
-              ...state,
-              loading:false,
-              value:"",
-              confirm:true
-            })
-            
+            onConfirm()
           }else{
-            setState({
-              ...state,
-              error:true,
-              loading:false,
-              value:""
-            })
-            
+            onError()
           }
           },3000)
       }
@@ -56,11 +69,10 @@ const UseState = ({name}) => {
         className={`border-solid border-2 bg-gray-300 px-1 py-2 mx-5 text-center rounded-xl focus:border-4 focus:border-blue-500 ${state.error?"border-red-700":""}`}
         value={state.value}
         onChange={(event)=>{
-          const inputValue=event.target.value
-          setState({...state,value:inputValue})
+         onWrite(event)
           
         }}
-        onFocus={()=> setState({...state,error:false,value:""})}
+        onFocus={()=> onInputFocus()}
         />
 
 
@@ -70,7 +82,7 @@ const UseState = ({name}) => {
         <button
          type='button'
          className='w-[150px] h-auto border-solid border-2 bg-blue-400  my-4 p-2 rounded-lg hover:bg-blue-700 hover:text-white'
-         onClick={()=> setState({...state,loading:true})}
+         onClick={()=> onCheck()}
          >Comprobar</button>
     </div>
        
@@ -78,7 +90,13 @@ const UseState = ({name}) => {
   )
 
   }else if(state.confirm && !state.delete){
-    
+    const onCancel=()=>{
+      setState({ ...state,confirm:false})
+    }
+
+    const onConfirm=()=>{
+      setState({ ...state,delete:true})
+    }
 
     return(
       <>
@@ -87,11 +105,11 @@ const UseState = ({name}) => {
 
         <div className='flex w-full justify-center'>
           <button className='w-[150px] h-auto mr-4 p-2 text-white bg-blue-500 text-lg rounded-xl hover:bg-blue-700'
-          onClick={()=>setState({ ...state,delete:true})}
+          onClick={()=>onConfirm()}
           >Confirmar</button>
 
         <button className='w-[150px] h-auto p-2 text-white bg-yellow-500 text-lg rounded-xl hover:bg-yellow-700'
-         onClick={()=>setState({ ...state,confirm:false})}
+         onClick={()=>onCancel()}
         >Cancelar</button>
         </div>
         
@@ -99,6 +117,11 @@ const UseState = ({name}) => {
       </>
     )
   }else{
+    const onRecover=()=>{
+      setState({ ...state,delete:false,
+        confirm:false})
+    }
+    
     return(
      <>
        <div className='flex flex-col items-center text-center w-screen h-1/2 py-10 bg-blue-300'>
@@ -106,8 +129,7 @@ const UseState = ({name}) => {
         
         <div className='flex w-full justify-center'>
           <button className='w-[200px] h-auto mr-4 p-2 text-white bg-blue-500 rounded-xl text-lg hover:bg-blue-700'
-          onClick={()=>setState({ ...state,delete:false,
-            confirm:false})}
+          onClick={()=>onRecover()}
           >Recuperar información</button>
 
        
