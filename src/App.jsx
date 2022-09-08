@@ -5,8 +5,8 @@ function App() {
 
   return (
     <div className="App w-screen h-screen">
-      <UseState/>
-      <ClassState/>
+      <UseState  name={'UseState'}/>
+      <ClassState  name={'ClassState'}/>
     </div>
   )
 }
