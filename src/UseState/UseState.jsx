@@ -1,13 +1,27 @@
 import React from 'react'
 
+const SECURITY_CODE='paradigma';
+
 const UseState = ({name}) => {
 
   const[error,setError]=React.useState(false)
   const [loading, setLoading] = React.useState(false)
+  const[value ,setValue]=React.useState('')
+
+  
 
   React.useEffect(() => {
       if(loading){
-         setTimeout(()=>{setLoading(false)},3000)
+         setTimeout(()=>{
+          if(value===SECURITY_CODE){
+            setLoading(false)
+            setValue('')
+          }else{
+            setError(true)
+            setLoading(false)
+            setValue('')
+          }
+          },3000)
       }
      
   }, [loading])
@@ -24,8 +38,16 @@ const UseState = ({name}) => {
 
         <input type={'text'}
         placeholder={'Código de seguridad'}
-        className='border-solid border-2 bg-gray-300 px-1 py-2 mx-5 text-center focus:border-4 focus:border-blue-500'
+        className={`border-solid border-2 bg-gray-300 px-1 py-2 mx-5 text-center rounded-xl focus:border-4 focus:border-blue-500 ${error?"border-red-700":""}`}
+        value={value}
+        onChange={(event)=>{
+          const inputValue=event.target.value
+          setValue(inputValue)
+        }}
+        onFocus={()=>setError(false)}
         />
+
+
         {loading&&<p>Cargando...</p>}
         {error&&<p>Error, el código es incorrecto!!</p>}
 
