@@ -5,35 +5,68 @@ const SECURITY_CODE='paradigma';
 const UseReducer = ({name}) => {
 
   const [state,dispatch]=React.useReducer(reducer,initialState)
- 
-  
-  const onWrite=(event)=>{
-    const inputValue=event.target.value
-    setState({...state,value:inputValue})
-  }
    
+  const onConfirm=()=>{
+    dispatch({
+      type:'CONFIRM'
+    })
+  }
   
+  const onError=()=>{
+    dispatch({
+      type:'ERROR'
+    })
+  }
+  const onWrite=()=>{
+    dispatch({
+      type:'WRITE',
+      payload:event.target.value
+    })
+  }
+  const onFocus=()=>{
+    dispatch({
+      type:'INPUT_FOCUS'
+    })
+  }
+  const onCheck=()=>{
+    dispatch({
+      type:'CHECK'
+    })
+  }
+  const onConfirmDelete=()=>{
+    dispatch({
+      type:'CONFIRM_DELETE'
+    })
+  }
+  const onCancel=()=>{
+    dispatch({
+      type:'CANCEL'
+    })
+  }
+  const onRecover=()=>{
+    dispatch({
+      type:'RECOVER'
+    })
+  }
   React.useEffect(() => {
       if(state.loading){
          setTimeout(()=>{
           if(state.value===SECURITY_CODE){
-            dispatch({
-              type:'CONFIRM'
-            })
+           onConfirm()
           }else{
-            dispatch({
-              type:'ERROR'
-            })
+            onError()
           }
           },3000)
       }
      
   }, [state.loading])
+
+
   
   if(!state.delete && !state.confirm){
     return (
     <>
-    <div className='flex flex-col items-center w-screen h-1/2 bg-gray-400 pt-8 pb-4'>
+    <div className='flex flex-col items-center w-screen h-1/2 bg-gray-600 pt-8 pb-4'>
 
      
 
@@ -45,15 +78,10 @@ const UseReducer = ({name}) => {
         className={`border-solid border-2 bg-gray-300 px-1 py-2 mx-5 text-center rounded-xl focus:border-4 focus:border-blue-500 ${state.error?"border-red-700":""}`}
         value={state.value}
         onChange={(event)=>{
-          dispatch({
-            type:'WRITE',
-            payload:event.target.value
-          })
+         onWrite()
           
         }}
-        onFocus={()=>  dispatch({
-          type:'INPUT_FOCUS'
-        })}
+        onFocus={()=>  onFocus()}
         />
 
 
@@ -63,9 +91,7 @@ const UseReducer = ({name}) => {
         <button
          type='button'
          className='w-[150px] h-auto border-solid border-2 bg-blue-400  my-4 p-2 rounded-lg hover:bg-blue-700 hover:text-white'
-         onClick={()=>  dispatch({
-          type:'CHECK'
-        })}
+         onClick={()=>  onCheck()}
          >Comprobar</button>
     </div>
        
@@ -82,15 +108,11 @@ const UseReducer = ({name}) => {
 
         <div className='flex w-full justify-center'>
           <button className='w-[150px] h-auto mr-4 p-2 text-white bg-blue-500 text-lg rounded-xl hover:bg-blue-700'
-          onClick={()=> dispatch({
-            type:'CONFIRM_DELETE'
-          })}
+          onClick={()=> onConfirmDelete()}
           >Confirmar</button>
 
         <button className='w-[150px] h-auto p-2 text-white bg-yellow-500 text-lg rounded-xl hover:bg-yellow-700'
-         onClick={()=> dispatch({
-          type:'CANCEL'
-        })}
+         onClick={()=> onCancel()}
         >Cancelar</button>
         </div>
         
@@ -107,9 +129,7 @@ const UseReducer = ({name}) => {
         
         <div className='flex w-full justify-center'>
           <button className='w-[200px] h-auto mr-4 p-2 text-white bg-blue-500 rounded-xl text-lg hover:bg-blue-700'
-          onClick={()=> dispatch({
-            type:'RECOVER'
-          })}
+          onClick={()=> onRecover()}
           >Recuperar información</button>
 
        
