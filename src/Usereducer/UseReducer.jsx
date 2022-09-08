@@ -5,49 +5,17 @@ const SECURITY_CODE='paradigma';
 const UseReducer = ({name}) => {
 
   const [state,dispatch]=React.useReducer(reducer,initialState)
-   
-  const onConfirm=()=>{
-    dispatch({
-      type:'CONFIRM'
-    })
-  }
-  
-  const onError=()=>{
-    dispatch({
-      type:'ERROR'
-    })
-  }
-  const onWrite=()=>{
-    dispatch({
-      type:'WRITE',
-      payload:event.target.value
-    })
-  }
-  const onFocus=()=>{
-    dispatch({
-      type:'INPUT_FOCUS'
-    })
-  }
-  const onCheck=()=>{
-    dispatch({
-      type:'CHECK'
-    })
-  }
-  const onConfirmDelete=()=>{
-    dispatch({
-      type:'CONFIRM_DELETE'
-    })
-  }
-  const onCancel=()=>{
-    dispatch({
-      type:'CANCEL'
-    })
-  }
-  const onRecover=()=>{
-    dispatch({
-      type:'RECOVER'
-    })
-  }
+
+  //action creators
+  const onConfirm=()=>{dispatch({type:'CONFIRM'})}
+  const onError=()=>{dispatch({type:'ERROR'})}
+  const onWrite=(event)=>{dispatch({type:'WRITE',payload:event.target.value})}
+  const onFocus=()=>{dispatch({type:'INPUT_FOCUS'})}
+  const onCheck=()=>{dispatch({type:'CHECK'})}
+  const onConfirmDelete=()=>{dispatch({type:'CONFIRM_DELETE'})}
+  const onCancel=()=>{dispatch({type:'CANCEL'})}
+  const onRecover=()=>{dispatch({type:'RECOVER'})}
+
   React.useEffect(() => {
       if(state.loading){
          setTimeout(()=>{
@@ -71,6 +39,7 @@ const UseReducer = ({name}) => {
      
 
         <h1 className='font-bold text-xl text-center'>Eliminar {" "}{name}</h1>
+
         <p className='text-lg my-4 p-2'>Por favor escribe el código de seguridad para comprobar que quieres eliminar la información</p>
 
         <input type={'text'}
@@ -78,8 +47,7 @@ const UseReducer = ({name}) => {
         className={`border-solid border-2 bg-gray-300 px-1 py-2 mx-5 text-center rounded-xl focus:border-4 focus:border-blue-500 ${state.error?"border-red-700":""}`}
         value={state.value}
         onChange={(event)=>{
-         onWrite()
-          
+         onWrite(event)
         }}
         onFocus={()=>  onFocus()}
         />
@@ -90,9 +58,9 @@ const UseReducer = ({name}) => {
 
         <button
          type='button'
-         className='w-[150px] h-auto border-solid border-2 bg-blue-400  my-4 p-2 rounded-lg hover:bg-blue-700 hover:text-white'
+         className={`w-[150px] h-auto border-solid border-2 bg-blue-400  my-4 p-2 rounded-lg hover:bg-blue-700 hover:text-white `}
          onClick={()=>  onCheck()}
-         >Comprobar</button>
+         >{!state.loading?"Comprobar":"Comprobando"}</button>
     </div>
        
     </>
@@ -103,7 +71,7 @@ const UseReducer = ({name}) => {
 
     return(
       <>
-       <div className='flex flex-col items-center text-center w-screen h-1/2 py-10 bg-blue-300'>
+       <div className='flex flex-col items-center justify-center text-center w-screen h-1/2 py-10 bg-gray-500'>
         <h3 className='font-semibold text-xl mb-6'>¿Deseas eliminar la información?</h3>
 
         <div className='flex w-full justify-center'>
@@ -124,7 +92,7 @@ const UseReducer = ({name}) => {
     
     return(
      <>
-       <div className='flex flex-col items-center text-center w-screen h-1/2 py-10 bg-blue-300'>
+       <div className='flex flex-col items-center justify-center text-center w-screen h-1/2 py-10 bg-gray-500'>
         <h1 className='font-semibold text-xl mb-6'>La información fue eliminada</h1>
         
         <div className='flex w-full justify-center'>
@@ -153,7 +121,7 @@ const initialState = {
 }
 
 
-//forma 3
+
 const reducerObject = (state,payload) => {
   return {
     'ERROR': {

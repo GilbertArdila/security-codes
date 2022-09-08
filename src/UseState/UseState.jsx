@@ -60,8 +60,9 @@ const UseState = ({name}) => {
     <div className='flex flex-col items-center w-screen h-1/2 bg-gray-400 pt-8 pb-4'>
 
      
-
+        
         <h1 className='font-bold text-xl text-center'>Eliminar {" "}{name}</h1>
+        <h3 className='absolute top-[45%] left-3 text-white'>para usar la aplicación utilice el Código paradigma</h3>
         <p className='text-lg my-4 p-2'>Por favor escribe el código de seguridad para comprobar que quieres eliminar la información</p>
 
         <input type={'text'}
@@ -83,7 +84,7 @@ const UseState = ({name}) => {
          type='button'
          className='w-[150px] h-auto border-solid border-2 bg-blue-400  my-4 p-2 rounded-lg hover:bg-blue-700 hover:text-white'
          onClick={()=> onCheck()}
-         >Comprobar</button>
+         >{!state.loading?"Comprobar":"Comprobando"}</button>
     </div>
        
     </>
@@ -100,7 +101,7 @@ const UseState = ({name}) => {
 
     return(
       <>
-       <div className='flex flex-col items-center text-center w-screen h-1/2 py-10 bg-blue-300'>
+       <div className='flex flex-col items-center justify-center text-center w-screen h-1/2 py-10 bg-gray-300'>
         <h3 className='font-semibold text-xl mb-6'>¿Deseas eliminar la información?</h3>
 
         <div className='flex w-full justify-center'>
@@ -124,7 +125,7 @@ const UseState = ({name}) => {
     
     return(
      <>
-       <div className='flex flex-col items-center text-center w-screen h-1/2 py-10 bg-blue-300'>
+       <div className='flex flex-col items-center justify-center text-center w-screen h-1/2 py-10 bg-gray-300'>
         <h1 className='font-semibold text-xl mb-6'>La información fue eliminada</h1>
         
         <div className='flex w-full justify-center'>

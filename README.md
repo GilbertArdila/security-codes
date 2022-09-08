@@ -5,3 +5,6 @@ en este proyecto utilizamos React/vite/tailwindcss para crear una aplicación de
 
 
 estamos haciendo use de componentes creados como funciones y componentes creados como clases para ver las diferencias entre las dos
+
+
+usamos useReducer, useEffect, action creators, action types, código imperativo, código declarativo, estados independientes, estados compuestos
