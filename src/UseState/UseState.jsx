@@ -7,7 +7,9 @@ const UseState = ({name}) => {
   const [state,setState]=React.useState({
     error:false,
     loading:false,
-    value:''
+    value:'',
+    delete:false,
+    confirm:false
   })
  
   
@@ -21,7 +23,8 @@ const UseState = ({name}) => {
             setState({
               ...state,
               loading:false,
-              value:""
+              value:"",
+              confirm:true
             })
             
           }else{
@@ -38,8 +41,8 @@ const UseState = ({name}) => {
      
   }, [state.loading])
   
-
-  return (
+  if(!state.delete && !state.confirm){
+    return (
     <>
     <div className='flex flex-col items-center w-screen h-1/2 bg-gray-400 pt-8 pb-4'>
 
@@ -73,6 +76,49 @@ const UseState = ({name}) => {
        
     </>
   )
+
+  }else if(state.confirm && !state.delete){
+    
+
+    return(
+      <>
+       <div className='flex flex-col items-center text-center w-screen h-1/2 py-10 bg-blue-300'>
+        <h3 className='font-semibold text-xl mb-6'>¿Deseas eliminar la información?</h3>
+
+        <div className='flex w-full justify-center'>
+          <button className='w-[150px] h-auto mr-4 p-2 text-white bg-blue-500 text-lg rounded-xl hover:bg-blue-700'
+          onClick={()=>setState({ ...state,delete:true})}
+          >Confirmar</button>
+
+        <button className='w-[150px] h-auto p-2 text-white bg-yellow-500 text-lg rounded-xl hover:bg-yellow-700'
+         onClick={()=>setState({ ...state,confirm:false})}
+        >Cancelar</button>
+        </div>
+        
+       </div>
+      </>
+    )
+  }else{
+    return(
+     <>
+       <div className='flex flex-col items-center text-center w-screen h-1/2 py-10 bg-blue-300'>
+        <h1 className='font-semibold text-xl mb-6'>La información fue eliminada</h1>
+        
+        <div className='flex w-full justify-center'>
+          <button className='w-[200px] h-auto mr-4 p-2 text-white bg-blue-500 rounded-xl text-lg hover:bg-blue-700'
+          onClick={()=>setState({ ...state,delete:false,
+            confirm:false})}
+          >Recuperar información</button>
+
+       
+        </div>
+        
+       </div>
+      </>
+    )
+     
+  }
+  
 }
 
 export  {UseState}
